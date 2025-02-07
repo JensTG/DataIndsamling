@@ -6,7 +6,21 @@ using System.Threading.Tasks;
 
 namespace DataIndsamling
 {
-    internal class BL
+    public class Person
+    {
+        // Eksporterer Data, i formatet "#,Svar", hvor # er spm's indeks og Svar er svaret på dette
+        public string[] EksporterData()
+        {
+
+        }
+
+        // Eksporterer alt andet end Data, som et array, hvor hver værdi er sin egen string
+        public string[] EksporterVærdier()
+        {
+
+        }
+    } 
+    public class BL
     {
     }
 }
