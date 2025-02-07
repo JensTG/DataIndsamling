@@ -9,20 +9,29 @@ namespace DataIndsamling
     internal class DAL
     {
         static string personPath = @"Persons.txt";
-        static string dataPath = @"Data.txt";
-        static void AddText(string[] Person, string[] Data)
+
+        static void AddText()
         {
+
+            Person person1 = new Person();
+            string[] PersonList = person1.EksporterVærdier();
+
+            string dataPath = "@" + PersonList[0] + ".txt";
             using (StreamWriter swc = File.AppendText(personPath))
             {
-                swc.WriteLine("{0},{1},{2},{3}", Person[0], Person[1], Person[2], Person[3]);
+
+                swc.WriteLine("{0},{1},{2},{3}", PersonList[0], PersonList[1], PersonList[2], PersonList[3]);
                 swc.Close();
             }
             using (StreamWriter swc = File.AppendText(dataPath))
             {
-                foreach (string svar in Data)
+                string[] data = person1.EksporterData();
+
+                foreach (string svar in data)
                 {
-                    swc.WriteLine("{0},{1}");
-                 }
+                    string[] subs = svar.Split(',');
+                    swc.WriteLine("{0},{1}", subs[0], subs[1]);
+                }
                 swc.Close();
             }
 
@@ -30,18 +39,8 @@ namespace DataIndsamling
 
         static string ReadData(int index)
         {
-            using (StreamReader sr = File.OpenText(personPath))
-            {
-                string s;
-                List<string> Data = new List<string>();
-                while ((s = sr.ReadLine()) != null)
-                {
-                    string[] subs = s.Split(',');
-                    chart1.Series["Brugere"].Points.AddXY(Convert.ToString(subs[1]), Convert.ToInt16(subs[0]));
-                }
-
-            }
 
 
         }
+    }
 }
