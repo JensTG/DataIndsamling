@@ -37,10 +37,35 @@ namespace DataIndsamling
 
         }
 
-        static string ReadData(int index)
+        static List<string> ReadData(int index)
         {
+            string dataPath = "@" + index + ".txt";
+            using (StreamReader sr = File.OpenText(dataPath))
+            {
+                List<string> Data = new List<string>();
+                string s;
+                while ((s = sr.ReadLine()) != null)
+                {
+                    string[] subs = s.Split(',');
+                    Data.Add(subs[1]);
+                }
+                return Data;
+            }
+        }
 
-
+        static List<string> ReadPersons(int index)
+        {
+            using (StreamReader sr = File.OpenText(personPath))
+            {
+                List<string> Persons = new List<string>();
+                string s;
+                while ((s = sr.ReadLine()) != null)
+                {
+                    string[] subs = s.Split(',');
+                    Persons.Add(subs[1]);
+                }
+                return Persons;
+            }
         }
     }
 }
