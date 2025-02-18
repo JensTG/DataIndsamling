@@ -8,11 +8,11 @@ namespace DataIndsamling
 {
     internal class DAL
     {
-        static string personPath = @"Persons.txt";
+        static string personPath = "Persons.txt";
 
         static void AddText(string[] PersonList, string[] DataList)
         {
-            string dataPath = "@" + PersonList[0] + ".txt";
+            string dataPath = PersonList[0] + ".txt";
 
             using (StreamWriter swc = File.AppendText(personPath))
             {
@@ -34,7 +34,7 @@ namespace DataIndsamling
 
         static List<string> ReadData(string cpr)
         {
-            string dataPath = "@" + cpr + ".txt";
+            string dataPath = cpr + ".txt";
             using (StreamReader sr = File.OpenText(dataPath))
             {
                 List<string> Data = new List<string>();
@@ -71,7 +71,7 @@ namespace DataIndsamling
         static void UpdateData(string cpr)
         {
             List<string> data = ReadData(cpr);
-            string dataPath = "@" + cpr + ".txt";
+            string dataPath = cpr + ".txt";
 
             
 
@@ -79,7 +79,7 @@ namespace DataIndsamling
 
         static void DeleteData(string cpr)
         {
-            string dataPath = "@" + cpr + ".txt";
+            string dataPath = cpr + ".txt";
             File.Delete(dataPath);
             
                 
