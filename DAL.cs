@@ -14,19 +14,14 @@ namespace DataIndsamling
         {
 
             Person person1 = new Person();
-            Person[] ArrayOfPersons = person1.xfx();
+            string[] PersonList = person1.EksporterVærdier();
 
-            for (int i = 0; i < ArrayOfPersons.Length; i++)
+            string dataPath = "@" + PersonList[0] + ".txt";
+            using (StreamWriter swc = File.AppendText(personPath))
             {
-                string[] PersonList = ArrayOfPersons[i];
 
-                
-                using (StreamWriter swc = File.AppendText(personPath))
-                {
-
-                    swc.WriteLine("{0},{1},{2},{3}", PersonList[0], PersonList[1], PersonList[2], PersonList[3]);
-                    swc.Close();
-                }
+                swc.WriteLine("{0},{1},{2},{3}", PersonList[0], PersonList[1], PersonList[2], PersonList[3]);
+                swc.Close();
             }
             using (StreamWriter swc = File.AppendText(dataPath))
             {
