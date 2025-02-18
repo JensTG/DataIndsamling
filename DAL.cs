@@ -9,39 +9,86 @@ namespace DataIndsamling
     internal class DAL
     {
         static string personPath = @"Persons.txt";
-        static string dataPath = @"Data.txt";
-        static void AddText(string[] Person, string[] Data)
+
+        static void AddText()
         {
+
+            Person person1 = new Person();
+            string[] PersonList = person1.EksporterVærdier();
+
+            string dataPath = "@" + PersonList[0] + ".txt";
             using (StreamWriter swc = File.AppendText(personPath))
             {
-                swc.WriteLine("{0},{1},{2},{3}", Person[0], Person[1], Person[2], Person[3]);
+
+                swc.WriteLine("{0},{1},{2},{3}", PersonList[0], PersonList[1], PersonList[2], PersonList[3]);
                 swc.Close();
             }
             using (StreamWriter swc = File.AppendText(dataPath))
             {
-                foreach (string svar in Data)
+                string[] data = person1.EksporterData();
+
+                foreach (string svar in data)
                 {
-                    swc.WriteLine("{0},{1}");
-                 }
+                    string[] subs = svar.Split(',');
+                    swc.WriteLine("{0},{1}", subs[0], subs[1]);
+                }
                 swc.Close();
             }
 
         }
 
-        static string ReadData(int index)
+        static List<string> ReadData(string cpr)
         {
-            using (StreamReader sr = File.OpenText(personPath))
+            string dataPath = "@" + cpr + ".txt";
+            using (StreamReader sr = File.OpenText(dataPath))
             {
-                string s;
                 List<string> Data = new List<string>();
+                string s;
                 while ((s = sr.ReadLine()) != null)
                 {
                     string[] subs = s.Split(',');
-                    chart1.Series["Brugere"].Points.AddXY(Convert.ToString(subs[1]), Convert.ToInt16(subs[0]));
+                    Data.Add(subs[1]);
                 }
-
+                return Data;
             }
+        }
 
+        static List<string> ReadPersons(string cpr)
+        {
+            using (StreamReader sr = File.OpenText(personPath))
+            {
+                List<string> Persons = new List<string>();
+                string s;
+                while ((s = sr.ReadLine()) != null)
+                {
+                    string[] subs = s.Split(',');
+                    if (subs[0]==cpr)
+                    {
+                        for (int i=0;i<subs.Length;i++)
+                        Persons.Add(subs[i]);
+                    }
+                    
+                }
+                return Persons;
+            }
+        }
+
+        static void UpdateData(string cpr)
+        {
+            List<string> data = ReadData(cpr);
+            string dataPath = "@" + cpr + ".txt";
+
+            
 
         }
+
+        static void DeleteData(string cpr)
+        {
+            string dataPath = "@" + cpr + ".txt";
+            File.Delete(dataPath);
+            
+                
+            
+        }
+    }
 }
