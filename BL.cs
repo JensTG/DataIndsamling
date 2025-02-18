@@ -10,7 +10,7 @@ namespace DataIndsamling
     {
         // Basale værdier
         string CPR; // Indekser, string er nemmere at arbejde med
-        int tlf_nr;
+        string tlf_nr;
         string adresse;
         string navn;
 
@@ -27,15 +27,25 @@ namespace DataIndsamling
         {
             List<string> resultat = new List<string>();
             for (int i = 0; i < Data.Count; i++)
-                resultat.Add(i + Data[i]);
+                resultat.Add(i + ',' + Data[i]);
+            return resultat.ToArray();
         }
 
         // Eksporterer alt andet end Data, som et array, hvor hver værdi er sin egen string
         public string[] EksporterVærdier()
         {
-
+            string[] resultat = { CPR, tlf_nr, adresse, navn };
+            return resultat;
         }
-    } 
+
+        // Returnerer svaret på et givent spørgsmål
+        public string ReturnerSvar(int spm)
+        {
+            if (spm < Data.Count && spm > 0)
+                return Data[spm];
+            return null;
+        }
+    }
     public class BL
     {
         List<Person> personer = new List<Person>();
@@ -43,6 +53,36 @@ namespace DataIndsamling
         public Person[] ReturnerAllePersoner()
         {
             return personer.ToArray();
+        }
+
+        // Returnerer personen med det pågældende CPR nr
+        public Person ReturnerFraCPR(string CPR)
+        {
+            try
+            {
+                Person resultat =
+                    (
+                        from person in personer
+                        where person.EksporterData()[0] == CPR
+                        select person
+                    ).ToArray()[0];
+                return resultat;
+            } catch
+            {
+                return null;
+            }
+        }
+
+        // Returnerer personer som har svaret på et specifikt spørgsmål, (evt. på en vis måde)
+        public Person[] ReturnerFraSvar(int spm, string svar = "")
+        {
+            Person[] resultat =
+                (
+                    from person in personer
+                    where person.ReturnerSvar(spm) != null && (svar == "" || svar == person.ReturnerSvar(spm))
+                    select person
+                ).ToArray();
+            return resultat;
         }
     }
 }
