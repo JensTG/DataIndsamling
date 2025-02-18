@@ -10,12 +10,8 @@ namespace DataIndsamling
     {
         static string personPath = @"Persons.txt";
 
-        static void AddText()
+        static void AddText(string[] PersonList, string[] DataList)
         {
-
-            Person person1 = new Person();
-            string[] PersonList = person1.EksporterVærdier();
-
             string dataPath = "@" + PersonList[0] + ".txt";
 
             using (StreamWriter swc = File.AppendText(personPath))
@@ -26,9 +22,7 @@ namespace DataIndsamling
 
             using (StreamWriter swc = File.AppendText(dataPath))
             {
-                string[] data = person1.EksporterData();
-
-                foreach (string svar in data)
+                foreach (string svar in DataList)
                 {
                     string[] subs = svar.Split(',');
                     swc.WriteLine("{0},{1}", subs[0], subs[1]);
