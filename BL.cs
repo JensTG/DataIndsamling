@@ -101,7 +101,7 @@ namespace DataIndsamling
 		}
 
 		// True, hvis det er en admin
-		static bool LogInd(string værdi)
+		static public bool LogInd(string værdi)
 		{
 			if (værdi == "admin")
 				return true;
