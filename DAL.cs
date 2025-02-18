@@ -37,9 +37,9 @@ namespace DataIndsamling
 
         }
 
-        static List<string> ReadData(int index)
+        static List<string> ReadData(string cpr)
         {
-            string dataPath = "@" + index + ".txt";
+            string dataPath = "@" + cpr + ".txt";
             using (StreamReader sr = File.OpenText(dataPath))
             {
                 List<string> Data = new List<string>();
@@ -53,7 +53,7 @@ namespace DataIndsamling
             }
         }
 
-        static List<string> ReadPersons(int index)
+        static List<string> ReadPersons(string cpr)
         {
             using (StreamReader sr = File.OpenText(personPath))
             {
@@ -62,10 +62,33 @@ namespace DataIndsamling
                 while ((s = sr.ReadLine()) != null)
                 {
                     string[] subs = s.Split(',');
-                    Persons.Add(subs[1]);
+                    if (subs[0]==cpr)
+                    {
+                        for (int i=0;i<subs.Length;i++)
+                        Persons.Add(subs[i]);
+                    }
+                    
                 }
                 return Persons;
             }
+        }
+
+        static void UpdateData(string cpr)
+        {
+            List<string> data = ReadData(cpr);
+            string dataPath = "@" + cpr + ".txt";
+
+            
+
+        }
+
+        static void DeleteData(string cpr)
+        {
+            string dataPath = "@" + cpr + ".txt";
+            File.Delete(dataPath);
+            
+                
+            
         }
     }
 }
